@@ -1,9 +1,11 @@
-import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vitest/config';
+import { sveltekit } from "@sveltejs/kit/vite";
+import { defineConfig, loadEnv } from "vite";
 
-export default defineConfig({
-	plugins: [sveltekit()],
-	test: {
-		include: ['src/**/*.{test,spec}.{js,ts}']
-	}
-});
+/** @type {import('vite').UserConfig} */
+export default ({ mode }: { mode: string }) => {
+	process.env = { ...process.env, ...loadEnv(mode, process.cwd(), "") };
+
+	return defineConfig({
+		plugins: [sveltekit()],
+	});
+};
