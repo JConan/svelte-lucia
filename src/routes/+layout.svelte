@@ -22,6 +22,14 @@
 		& ul {
 			display: flex;
 			gap: 1rem;
+
+			& li:hover {
+				/* font-weight: bold; */
+				text-shadow:
+					0.5px 0px darkblue,
+					-0.5px 0px darkblue;
+				text-decoration: underline;
+			}
 		}
 	}
 </style>
