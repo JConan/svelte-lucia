@@ -61,6 +61,9 @@ export const actions: Actions = {
                     message: "Incorrect username or password"
                 });
             }
+
+            console.log(e)
+
             return fail(500, {
                 message: "An unknown error occurred"
             });
