@@ -1,42 +1,26 @@
-<script>
-	import { enhance } from '$app/forms';
-
-	export let data;
-</script>
-
 <main>
-	{#if data.session}
-		<p>hello <strong>{data.session.user.username}</strong></p>
-
-		<form method="post" action="/logout" use:enhance>
-			<input type="submit" value="Sign out" on:click|once />
-		</form>
-	{:else}
-		<p>hello <strong>GUEST</strong></p>
-	{/if}
+	<p>Hello this is a technical demo page that show how to implements authentication</p>
+	<p>Built with:</p>
+	<ul>
+		<li><a href="https://kit.svelte.dev/">Svelte Kit</a></li>
+		<li><a href="https://lucia-auth.com/">Lucia 2.0</a></li>
+	</ul>
 </main>
 
 <style>
-	strong {
-		font-weight: bold;
-	}
 	main {
 		margin: auto;
 		margin-top: 1rem;
 		width: 300px;
 		padding: 1rem;
-		& input {
-			margin: 1rem;
-			border: 1px solid darkred;
-			padding: 0.25rem;
-			color: darkred;
-			box-shadow: 2px 2px black;
 
-			&:active {
-				background-color: lightcoral;
-				transform: translate(2px, 2px);
-				box-shadow: none;
-			}
+		& p:nth-child(2) {
+			margin-top: 1rem;
+		}
+
+		& li {
+			margin-left: 1rem;
+			list-style: square;
 		}
 	}
 </style>
