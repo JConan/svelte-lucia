@@ -2,7 +2,6 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { navigating } from '$app/stores';
 	export let form;
-	$: form && console.log(form);
 	let submiting = false;
 </script>
 
@@ -28,10 +27,10 @@
 		<input
 			type="submit"
 			disabled={submiting || $navigating != null}
-			value={submiting || $navigating != null ? 'Envoi en cours...' : 'Envoyer'}
+			value={submiting || $navigating != null ? 'logging in ...' : 'Log in'}
 		/>
 	</form>
-	<a href="/signup">Create an account</a>
+	<a href="/email/signup">Create an account</a>
 
 	{#if form}
 		<p class="error">{form.message}</p>
