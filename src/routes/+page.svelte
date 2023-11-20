@@ -21,6 +21,9 @@
 		font-weight: bold;
 	}
 	main {
+		margin: auto;
+		margin-top: 1rem;
+		width: 300px;
 		padding: 1rem;
 		& input {
 			margin: 1rem;
