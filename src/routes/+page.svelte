@@ -8,7 +8,7 @@
 	{#if data.session}
 		<p>hello <strong>{data.session.user.username}</strong></p>
 
-		<form method="post" action="?/logout" use:enhance>
+		<form method="post" action="/logout" use:enhance>
 			<input type="submit" value="Sign out" on:click|once />
 		</form>
 	{:else}
