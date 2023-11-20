@@ -1,12 +1,18 @@
 <script>
 	import 'the-new-css-reset/css/reset.css';
+	export let data;
 </script>
 
 <header>
 	<nav>
 		<ul>
 			<li><a href="/">Home</a></li>
-			<li><a href="/email">Email</a></li>
+
+			{#if data.session}
+				<li><a href="/profile">Profile</a></li>
+			{:else}
+				<li><a href="/email">Email</a></li>
+			{/if}
 		</ul>
 	</nav>
 </header>
