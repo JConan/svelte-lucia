@@ -1,2 +1,1 @@
-export { auth, type Auth } from "./lucia";
-export { type AuthRequest } from "lucia";
+export { auth, AuthError, type Auth, type AuthRequest } from "../../libraries/lucia";

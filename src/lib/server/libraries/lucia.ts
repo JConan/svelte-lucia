@@ -1,11 +1,8 @@
-// src/lib/server/lucia.ts
 import { lucia } from "lucia";
 import { sveltekit } from "lucia/middleware";
 import { pg } from "@lucia-auth/adapter-postgresql";
 import { db } from "@vercel/postgres";
 
-
-// expect error (see next section)
 export const auth = lucia({
     env: 'DEV',
     adapter: pg(db, {
@@ -24,3 +21,4 @@ export const auth = lucia({
 });
 
 export type Auth = typeof auth;
+export { type AuthRequest, LuciaError as AuthError } from "lucia";

@@ -1,5 +1,4 @@
-import { auth } from "$lib/server/services/authentication";
-import { LuciaError } from "lucia";
+import { auth, AuthError } from "$lib/server/services/authentication";
 import { fail, redirect } from "@sveltejs/kit";
 
 import type { PageServerLoad, Actions } from "./$types";
@@ -51,7 +50,7 @@ export const actions: Actions = {
             locals.auth.setSession(session); // set session cookie
         } catch (e) {
             if (
-                e instanceof LuciaError &&
+                e instanceof AuthError &&
                 (e.message === "AUTH_INVALID_KEY_ID" ||
                     e.message === "AUTH_INVALID_PASSWORD")
             ) {
