@@ -3,7 +3,7 @@
 /// <reference types="lucia" />
 declare global {
 	namespace Lucia {
-		type Auth = import("$lib/server/lucia").Auth;
+		type Auth = import("$lib/server/AuthenticationServices").Auth;
 		type DatabaseUserAttributes = {
 			username: string,
 			last_name?: string | null,
@@ -14,7 +14,7 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			auth: import("lucia").AuthRequest;
+			auth: import("$lib/server/AuthenticationServices").AuthRequest;
 		}
 		// interface PageData {}
 		// interface Platform {}

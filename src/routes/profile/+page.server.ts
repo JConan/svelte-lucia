@@ -1,6 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
-import { auth } from "$lib/server/lucia";
+import { auth } from "$lib/server/Services/Authentication";
 
 export const load: PageServerLoad = async ({ locals, depends }) => {
     depends('profile-session')

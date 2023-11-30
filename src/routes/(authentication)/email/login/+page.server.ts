@@ -1,4 +1,4 @@
-import { auth } from "$lib/server/lucia";
+import { auth } from "$lib/server/Services/Authentication";
 import { LuciaError } from "lucia";
 import { fail, redirect } from "@sveltejs/kit";
 
