@@ -1,84 +1,37 @@
-import { auth } from "$lib/server/services/authentication";
+import { AuthError } from "$lib/server/services/authentication";
 import { fail, redirect } from "@sveltejs/kit";
+import { ZodError } from "zod";
+import { CreateUserDataSchema, createUser } from "$lib/server/services/user";
 
-import type { Actions } from "./$types";
-
-type VercelPostgresError = {
-    code: string;
-    detail: string;
-    schema?: string;
-    table?: string;
-    column?: string;
-    dataType?: string;
-    constraint?: "auth_user_username_key";
-};
-
-export const actions: Actions = {
-    default: async ({ request, locals }) => {
+export const actions = {
+    default: async ({ request }) => {
         const formData = await request.formData();
 
-        const username = formData.get("username");
-        const password = formData.get("password");
-        console.log({ username, password })
-        // basic check
-        if (
-            typeof username !== "string" ||
-            username.length < 4 ||
-            username.length > 31
-        ) {
-            return fail(400, {
-                message: "Invalid username"
-            });
-        }
-        if (
-            typeof password !== "string" ||
-            password.length < 6 ||
-            password.length > 255
-        ) {
-            return fail(400, {
-                message: "Invalid password"
-            });
-        }
         try {
-            const user = await auth.createUser({
-                key: {
-                    providerId: "username", // auth method
-                    providerUserId: username.toLowerCase(), // unique id when using "username" auth method
-                    password // hashed by Lucia
-                },
-                attributes: {
-                    username
-                }
-            });
-            const session = await auth.createSession({
-                userId: user.userId,
-                attributes: {}
-            });
-            locals.auth.setSession(session); // set session cookie
+            const userData = await CreateUserDataSchema.parse({
+                username: formData.get("username"),
+                email: formData.get("email"),
+                password: formData.get("password")
+            })
+            await createUser(userData)
         } catch (e) {
-            const maybeVercelPostgresError = (
-                typeof e === "object" ? e : {}
-            ) as Partial<VercelPostgresError>;
+            // Forms Validation errors
+            if (e instanceof ZodError) {
+                return fail(400, { success: false, errors: e.formErrors.fieldErrors })
+            }
 
-            console.dir(maybeVercelPostgresError, { depth: null })
+            // Database errors
+            if (e instanceof AuthError && e.message === 'AUTH_DUPLICATE_KEY_ID') {
+                return fail(400, { success: false, message: 'Already in use' })
+            }
 
-            // // this part depends on the database you're using
-            // // check for unique constraint error in user table
-            // if (
-            //     e instanceof SomeDatabaseError &&
-            //     e.message === USER_TABLE_UNIQUE_CONSTRAINT_ERROR
-            // ) {
-            //     return fail(400, {
-            //         message: "Username already taken"
-            //     });
-            // }
+
+            console.dir(e, { depth: null })
             return fail(500, {
                 message: "An unknown error occurred"
             });
         }
-        // redirect to
-        // make sure you don't throw inside a try/catch block!
-        console.log(`created user: ${username}`)
-        throw redirect(302, "/");
+
+        throw redirect(302, "/email/login");
     }
 };

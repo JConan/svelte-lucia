@@ -6,6 +6,7 @@ declare global {
 		type Auth = import("$lib/server/AuthenticationServices").Auth;
 		type DatabaseUserAttributes = {
 			username: string,
+			email: string,
 			last_name?: string | null,
 			first_name?: string | null,
 		};

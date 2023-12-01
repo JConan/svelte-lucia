@@ -13,7 +13,7 @@
 		use:enhance={() => {
 			submiting = true;
 
-			return async ({ result }) => {
+			return async ({ result, update }) => {
 				submiting = false;
 				await applyAction(result);
 			};
@@ -21,8 +21,24 @@
 	>
 		<label for="username">Username</label>
 		<input name="username" id="username" />
+		{#if form?.errors?.username}
+			<span class="error">{form?.errors?.username}</span>
+		{/if}
+
+		<label for="email">Email</label>
+		<input name="email" id="email" />
+		{#if form?.errors?.email}
+			<span class="error">{form?.errors?.email}</span>
+		{/if}
+
 		<label for="password">Password</label>
 		<input type="password" name="password" id="password" />
+		{#if form?.errors?.password}
+			{#each form?.errors?.password as error}
+				<span class="error">{error}</span>
+			{/each}
+		{/if}
+
 		<input
 			type="submit"
 			disabled={submiting || $navigating != null}
@@ -31,7 +47,7 @@
 	</form>
 	<a href="/email/login">Sign in</a>
 
-	{#if form}
+	{#if form?.message}
 		<p class="error">{form.message}</p>
 	{/if}
 </main>
@@ -71,6 +87,12 @@
 					transform: translate(2px, 2px);
 					box-shadow: none;
 				}
+			}
+			& span.error {
+				grid-column: 1 / span 2;
+				margin-top: -0.3rem;
+				font-size: 12px;
+				text-align: right;
 			}
 		}
 		& a {
