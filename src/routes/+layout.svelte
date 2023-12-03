@@ -43,10 +43,31 @@
 
 <slot />
 
+<footer>
+	<ul>
+		<li>{data.appInfo}</li>
+	</ul>
+</footer>
+
 <style>
 	:global(:root) {
 		font-family: 'Source Sans Pro', sans-serif;
+		height: 100%;
 	}
+	:global(body) {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+
+		& main {
+			flex-grow: 1;
+		}
+		& footer {
+			font-size: 10px;
+			padding: 0.3rem;
+		}
+	}
+
 	nav {
 		padding: 1rem;
 		& ul {
